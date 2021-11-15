@@ -34,7 +34,7 @@ const style = `
 
 const { node, openssl, unicode } = process.versions;
 const merge = {
-    title: 'Encurtador de URL API',
+    title: 'Encurtador de Url API',
     appname: 'API do encurtador de URL',
     node,
     openssl,
