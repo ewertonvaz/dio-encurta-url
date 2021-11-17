@@ -1,14 +1,26 @@
-import logo from './logo.svg';
+import React, { createContext, useState } from "react";
 import './App.css';
 import { Layout } from '../../components/layout';
+import api from '../../services/api';
 
-const handleUrl = () => {
-  alert('Você clicou no botão');
-}
+export const AppContext = createContext();
 
 function App() {
+  const handleUrl = async () => {
+    const url = await api.generate(textUrl);
+    console.log(url);
+    setAppInit( { shortUrl : url.shortUrl, hash : url.hash, originUrl : url.originUrl});
+  }
+  const handleTextChange = (event) => {
+    setTextUrl(event.target.value);
+    setAppInit({ shortUrl : '', hash : '', originUrl : ''})
+  }
+  const [ appInit, setAppInit ] = useState({ shortUrl : '', hash : '', originUrl : ''});
+  const [textUrl, setTextUrl] = useState();
   return (
-    <Layout onChange={handleUrl}/>
+    <AppContext.Provider value={ appInit }>
+        <Layout onClick={handleUrl} onChange={handleTextChange}/>
+    </AppContext.Provider>
   );
 }
 
