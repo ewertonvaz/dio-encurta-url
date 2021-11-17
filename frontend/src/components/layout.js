@@ -5,17 +5,19 @@ import {baseURL} from "../services/api";
 
 export const Layout = (props) => {
     const { onClick, onChange } = props;
-    const layoutState = useContext(AppContext);
+    const appContext = useContext(AppContext);
+    const layoutState = appContext ? appContext.url : {};
+    const validated = appContext ? appContext.formValidated : false;
     useEffect( ()=> {}, [layoutState])
     return(
         <WrapperLayout>
             <input type="text" placeholder="digite uma URL" onChange={onChange}></input>
-            <button type="button" onClick={onClick}>Encurtar</button>
+            <button type="button" onClick={onClick} disabled={!validated}>Encurtar</button>
             <ShortenResult>
               <p>Nova URL: 
                 <span>
-                <a href={baseURL.toString() + '/' + layoutState.hash} target='_blank'>
-                {baseURL.toString() + '/' + layoutState.hash}</a>
+                <a href={baseURL.toString() + '/' + (!!layoutState.hash ? layoutState.hash : '') } target='_blank' rel='noreferrer'>
+                {baseURL.toString() + '/' + (!!layoutState.hash ? layoutState.hash : '')}</a>
                 </span>
               </p>
               <p>Hash: <span>{layoutState.hash}</span></p>
